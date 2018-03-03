@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class ErrorController {
 
     @Autowired
     UserService userService;
+
 /*    @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<?> getErrorResponse(DataIntegrityViolationException e){
 //        e.getMessage()
@@ -34,6 +36,18 @@ public class ErrorController {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<?> getErrorResponse(RuntimeException e){
+        ErrorToSave errorToSave = new ErrorToSave();
+        errorToSave.setCreatedOn(new Date());
+        //errorToSave.setMessage(e.getMessage());
+        errorToSave.setMessage(e.getCause().getLocalizedMessage());
+        errorToSave.setExceptionType(e.getClass().getTypeName());
+        userService.save(errorToSave);
+        //return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getCause().getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = NoSuchElementException.class)
+    public ResponseEntity<?> getErrorResponse(NoSuchElementException e){
         ErrorToSave errorToSave = new ErrorToSave();
         errorToSave.setCreatedOn(new Date());
         //errorToSave.setMessage(e.getMessage());
