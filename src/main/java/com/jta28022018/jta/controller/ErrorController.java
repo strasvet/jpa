@@ -38,23 +38,23 @@ public class ErrorController {
     public ResponseEntity<?> getErrorResponse(RuntimeException e){
         ErrorToSave errorToSave = new ErrorToSave();
         errorToSave.setCreatedOn(new Date());
-        //errorToSave.setMessage(e.getMessage());
-        errorToSave.setMessage(e.getCause().getLocalizedMessage());
+        errorToSave.setMessage(e.getMessage());
+        //errorToSave.setMessage(e.getCause().getLocalizedMessage());
         errorToSave.setExceptionType(e.getClass().getTypeName());
         userService.save(errorToSave);
-        //return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(e.getCause().getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+       // return new ResponseEntity<>(e.getCause().getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)
     public ResponseEntity<?> getErrorResponse(NoSuchElementException e){
         ErrorToSave errorToSave = new ErrorToSave();
         errorToSave.setCreatedOn(new Date());
-        //errorToSave.setMessage(e.getMessage());
-        errorToSave.setMessage(e.getCause().getLocalizedMessage());
+        errorToSave.setMessage(e.getMessage());
+        //errorToSave.setMessage(e.getCause().getLocalizedMessage());
         errorToSave.setExceptionType(e.getClass().getTypeName());
         userService.save(errorToSave);
-        //return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(e.getCause().getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        //return new ResponseEntity<>(e.getCause().getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
 }

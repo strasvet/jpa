@@ -98,8 +98,8 @@ public class UserServiceImpl implements UserService {
     public UserResponse getByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if(user == null) {
-            throw new NoSuchElementException("Not FOUND in DATABASE!");
-           // throw new RuntimeException("Not Found user in database!");
+            throw new NoSuchElementException("Not FOUND username: "+ username +" in DATABASE!");
+            // throw new RuntimeException("Not Found user in database!");
         }
         UserInfo userInfo = userInfoRepository.findByUser(user);
         return UserResponse.builder()
